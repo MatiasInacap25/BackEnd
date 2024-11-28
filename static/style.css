@@ -1,0 +1,53 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.container-login {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 50px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    width: 50%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.messages-error {
+    color: red;
+}
+
+.btn-close {
+    width: 10px;
+    height: 10px;
+    padding: 10px;
+}
+
+form p {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+form label {
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+form input {
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.container-register {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 50px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    width: 50%;
+}
