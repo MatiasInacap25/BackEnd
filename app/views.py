@@ -7,14 +7,15 @@ from .forms import  LoginForm, RegisterForm
 # Create your views here.
 def login_view(request):
     if request.method == 'POST':
-        form = LoginForm(request=request, data=request.POST)  # Cambio aquí
+        form = LoginForm(request=request, data=request.POST)
         if form.is_valid():
-            email = form.cleaned_data.get('username')  # El campo se llama username aunque sea email
-            password = form.cleaned_data.get('password')
-            user = authenticate(request, username=email, email=email, password=password)
+            user = form.get_user()
             if user is not None:
                 login(request, user)
+                messages.success(request, '¡Bienvenido!')
                 return redirect('home')
+            else:
+                messages.error(request, 'Credenciales inválidas')
     else:
         form = LoginForm()
     return render(request, 'login.html', {'form': form})
@@ -30,3 +31,13 @@ def register_view(request):
             messages.success(request, '¡Registro exitoso!')
             return redirect('home')
     return render(request, 'register.html', {'form': form})
+
+@login_required()
+def home(request):
+    return render(request, 'index.html')
+
+def logout_view(request):
+    logout(request)
+    messages.success(request, '¡Hasta pronto!')
+    return redirect('login')
+
