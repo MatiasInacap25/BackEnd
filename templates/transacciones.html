@@ -1,14 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Transacciones</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">Mi Aplicación</a>
+            <div class="navbar-nav">
+                <a class="nav-link" href="{% url 'home' %}">Inicio</a>
+                <a class="nav-link" href="{% url 'presupuestos' %}">Presupuestos</a>
+                <a class="nav-link active" href="{% url 'transacciones' %}">Transacciones</a>
+            </div>
+        </div>
+    </nav>
 
+    <div class="container mt-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Mis Transacciones</h2>
+            <div>
+                <a href="{% url 'crear_transaccion' %}" class="btn btn-primary">Nueva Transacción</a>
+                <a href="{% url 'crear_categoria' %}" class="btn btn-outline-primary">Nueva Categoría</a>
+            </div>
+        </div>
+
+        {% if transacciones %}
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Tipo</th>
+                            <th>Categoría</th>
+                            <th>Descripción</th>
+                            <th>Monto</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for transaccion in transacciones %}
+                            <tr>
+                                <td>{{ transaccion.fecha|date:"d/m/Y H:i" }}</td>
+                                <td>
+                                    <span class="badge {% if transaccion.tipo == 'Ingreso' %}bg-success{% else %}bg-danger{% endif %}">
+                                        {{ transaccion.tipo }}
+                                    </span>
+                                </td>
+                                <td>{{ transaccion.categoria.nombre }}</td>
+                                <td>{{ transaccion.descripcion|default:"-" }}</td>
+                                <td>${{ transaccion.monto }}</td>
+                                <td>
+                                    <a href="{% url 'editar_transaccion' transaccion.id %}" class="btn btn-sm btn-outline-primary">Editar</a>
+                                    <form action="{% url 'eliminar_transaccion' transaccion.id %}" method="POST" class="d-inline">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-outline-danger" 
+                                                onclick="return confirm('¿Estás seguro de eliminar esta transacción?')">
+                                            Eliminar
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                No tienes transacciones registradas.
+            </div>
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

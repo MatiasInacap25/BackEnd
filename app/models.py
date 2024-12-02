@@ -49,6 +49,17 @@ class Presupuesto(models.Model):
     def __str__(self):
         return f"Presupuesto {self.categoria.nombre}: {self.limite}"
 
+    def porcentaje_usado(self):
+        gastos = self.categoria.transacciones.filter(
+            usuario=self.usuario,
+            tipo='Gasto',
+            fecha__range=[self.periodo_inicio, self.periodo_fin]
+        ).aggregate(total=models.Sum('monto'))['total'] or 0
+        
+        if self.limite > 0:
+            return min(round((gastos / self.limite) * 100), 100)
+        return 0
+
 # Modelo para transacciones financieras
 class Transaccion(models.Model):
     TIPO_CHOICES = [

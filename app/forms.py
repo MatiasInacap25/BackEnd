@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import CustomUser
+from .models import CustomUser, Categoria, Transaccion, Presupuesto
 
 class LoginForm(AuthenticationForm):
     username = forms.EmailField(
@@ -69,5 +69,66 @@ class RegisterForm(UserCreationForm):
         # Etiquetas en español
         self.fields['password1'].label = 'Contraseña'
         self.fields['password2'].label = 'Confirmar contraseña'
+    
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        # Usar la parte del email antes del @ como username
+        user.username = self.cleaned_data['email'].split('@')[0]
+        if commit:
+            user.save()
+        return user
 
-        
+class CategoriaForm(forms.ModelForm):
+    nombre = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Nombre de la categoría'
+        })
+    )
+
+    class Meta:
+        model = Categoria
+        fields = ['nombre']
+
+class TransaccionForm(forms.ModelForm):
+    tipo = forms.ChoiceField(
+        choices=[('Ingreso', 'Ingreso'), ('Gasto', 'Gasto')],
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+    
+    categoria = forms.ModelChoiceField(
+        queryset=Categoria.objects.all(),
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+    
+    monto = forms.DecimalField(
+        widget=forms.NumberInput(attrs={
+            'class': 'form-control',
+            'step': '0.01',
+            'min': '0'
+        })
+    )
+    
+    descripcion = forms.CharField(
+        required=False,
+        widget=forms.Textarea(attrs={
+            'class': 'form-control',
+            'rows': 3,
+            'placeholder': 'Descripción opcional'
+        })
+    )
+
+    class Meta:
+        model = Transaccion
+        fields = ['tipo', 'categoria', 'monto', 'descripcion']
+
+class PresupuestoForm(forms.ModelForm):
+    class Meta:
+        model = Presupuesto
+        fields = ['categoria', 'limite', 'periodo_inicio', 'periodo_fin']
+        widgets = {
+            'categoria': forms.Select(attrs={'class': 'form-control'}),
+            'limite': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
+            'periodo_inicio': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+            'periodo_fin': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
+        }
