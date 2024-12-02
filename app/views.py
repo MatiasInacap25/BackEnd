@@ -13,7 +13,7 @@ def login_view(request):
             user = form.get_user()
             if user is not None:
                 login(request, user)
-                messages.success(request, '¡Bienvenido!')
+                messages.success(request, f'¡Bienvenido {user.first_name}!')
                 return redirect('home')
             else:
                 messages.error(request, 'Credenciales inválidas')

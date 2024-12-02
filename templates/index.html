@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 <html lang="es">
+{% load static %}
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Panel Principal</title>
+  <title>Inicio</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'style.css' %}" />
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container">
-      <a class="navbar-brand" href="{% url 'home' %}">Mi Aplicación</a>
+  <nav class="navbar navbar-expand-lg navbar-light ">
+    <div class="container navbar">
       <div class="navbar-nav me-auto">
-        <a class="nav-link active" href="{% url 'home' %}">Inicio</a>
+        <a class="nav-link active navbar-brand" href="{% url 'home' %}">Inicio</a>
         <a class="nav-link" href="{% url 'presupuestos' %}">Presupuestos</a>
         <a class="nav-link" href="{% url 'transacciones' %}">Transacciones</a>
+        <a class="nav-link" href="{% url 'categorias' %}">Categorías</a>
       </div>
       <form action="{% url 'logout' %}" method="post" class="d-inline">
         {% csrf_token %}
@@ -35,6 +37,16 @@
       {% endfor %}
     </div>
     {% endif %}
+    <div class="row mt-4">
+      <div class="col">
+        <div class="card">
+          <div class="card-body center">
+            <h5 class="card-title">Saldo Actual</h5>
+            <h2 class="text-center">${{ request.user.saldo }}</h2>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div class="row mt-4">
       <div class="col-md-4 mb-4">
@@ -46,7 +58,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="col-md-4 mb-4">
         <div class="card">
           <div class="card-body">
@@ -56,7 +68,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="col-md-4 mb-4">
         <div class="card">
           <div class="card-body">
@@ -68,16 +80,6 @@
       </div>
     </div>
 
-    <div class="row mt-4">
-      <div class="col-md-6">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Balance Actual</h5>
-            <h2 class="text-center">${{ request.user.saldo }}</h2>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

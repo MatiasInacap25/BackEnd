@@ -51,3 +51,12 @@ form input {
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
     width: 50%;
 }
+
+.center {
+    display: flex;
+    justify-content: center;
+}
+
+nav {
+    background-color: green;
+}
