@@ -60,6 +60,13 @@ class Presupuesto(models.Model):
             return min(round((gastos / self.limite) * 100), 100)
         return 0
 
+    def total_gastado(self):
+        return self.categoria.transacciones.filter(
+            usuario=self.usuario,
+            tipo='Gasto',
+            fecha__range=[self.periodo_inicio, self.periodo_fin]
+        ).aggregate(total=models.Sum('monto'))['total'] or 0
+
 # Modelo para transacciones financieras
 class Transaccion(models.Model):
     TIPO_CHOICES = [

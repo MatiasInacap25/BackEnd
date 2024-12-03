@@ -1,18 +1,22 @@
 <!DOCTYPE html>
-<html lang="es">
 {% load static %}
+<html lang="es">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Inicio</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="{% static 'style.css' %}" />
+  <title>Panel Principal</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="{% static 'style2.css' %}" />
 </head>
 
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light ">
-    <div class="container navbar">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
       <div class="navbar-nav me-auto">
         <a class="nav-link active navbar-brand" href="{% url 'home' %}">Inicio</a>
         <a class="nav-link" href="{% url 'presupuestos' %}">Presupuestos</a>
@@ -40,9 +44,15 @@
     <div class="row mt-4">
       <div class="col">
         <div class="card">
-          <div class="card-body center">
-            <h5 class="card-title">Saldo Actual</h5>
-            <h2 class="text-center">${{ request.user.saldo }}</h2>
+          <div class="card-body container">
+            <div class="row">
+              <div class="col">
+                <h5 class="saldo col">Saldo Actual</h5>
+              </div>
+              <div class="col">
+                <h2 class="text-center col center">${{ request.user.saldo }}</h2>
+              </div>
+            </div>
           </div>
         </div>
       </div>

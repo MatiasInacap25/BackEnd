@@ -1,0 +1,30 @@
+nav {
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.navbar {
+    background-color: white !important;
+    border-radius: 8px;
+}
+
+.center {
+    display: grid;
+    justify-content: end;
+}
+
+.saldo {
+    padding: 6px;
+}
+
+.acciones {
+    display: grid;
+    justify-content: end;
+    margin-right: 50px;
+    width: auto;
+}
+
+.acciones2 {
+    display: grid;
+    justify-content: end;
+    margin-right: 50px;
+}

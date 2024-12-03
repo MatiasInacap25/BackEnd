@@ -26,8 +26,11 @@ def register_view(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
+            categorias_predeterminadas = ['Comida', 'Trabajo', 'Ropa', 'Transporte', 'Marakas']  # Ejemplo de categorías
+            for nombre in categorias_predeterminadas:
+                Categoria.objects.get_or_create(nombre=nombre)  # Crea la categoría si no existe
             login(request, user)
-            messages.success(request, '¡Registro exitoso!')
+            messages.success(request, f'¡Bienvenido {user.first_name}!')
             return redirect('home')
         else:
             messages.error(request, 'Por favor corrige los errores en el formulario.')
@@ -49,6 +52,7 @@ def presupuestos_view(request):
     presupuestos = Presupuesto.objects.filter(usuario=request.user)
     for presupuesto in presupuestos:
         presupuesto.porcentaje = presupuesto.porcentaje_usado()
+        presupuesto.saldo_gastado = presupuesto.total_gastado()
     return render(request, 'presupuestos.html', {'presupuestos': presupuestos})
 
 @login_required
