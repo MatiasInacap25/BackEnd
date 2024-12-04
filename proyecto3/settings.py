@@ -131,8 +131,8 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
-SESSION_COOKIE_AGE = 3600  # Tiempo de vida de 1 hora
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Expira al cerrar navegador
+SESSION_COOKIE_AGE = 0  # Tiempo de vida de 1 hora
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # Expira al cerrar navegador
 
 LOGIN_URL = 'login'  # Nombre de la URL de login
 LOGIN_REDIRECT_URL = 'home'  # Página después del login exitoso
