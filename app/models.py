@@ -1,5 +1,9 @@
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
+import requests
+
+paises = ["USD", "EUR", "ARS", "BRL"]
+url = 'https://v6.exchangerate-api.com/v6/9f92a658f32a5c886cbf89af/pair/CLP/X/monto'
 
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
@@ -30,6 +34,20 @@ class CustomUser(AbstractUser):
     def __str__(self):
         return self.email
 
+    def conversion_saldo(self):
+        conversiones = {}
+        try:
+            for pais in paises:
+                response = requests.get(url.replace('X', pais).replace('monto', str(self.saldo)), timeout=5)
+                data = response.json()
+                conversiones[pais] = data.get('conversion_result', 0)
+            return conversiones
+        except Exception as e:
+            print(f"Error en la conversión: {str(e)}")
+            return None
+
+    def __str__(self):
+        return self.email
 
 # Modelo para categorías de transacciones
 class Categoria(models.Model):

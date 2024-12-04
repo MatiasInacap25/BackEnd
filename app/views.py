@@ -40,7 +40,9 @@ def register_view(request):
 
 @login_required()
 def home(request):
-    return render(request, 'index.html')
+    user = request.user
+    saldos_convertidos = user.conversion_saldo()
+    return render(request, 'index.html', {'user': user, 'saldos_convertidos': saldos_convertidos})
 
 def logout_view(request):
     logout(request)
