@@ -26,9 +26,9 @@ def register_view(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
-            categorias_predeterminadas = ['Comida', 'Trabajo', 'Ropa', 'Transporte', 'Marakas']  # Ejemplo de categorías
+            categorias_predeterminadas = ['Comida', 'Trabajo', 'Ropa', 'Transporte']  
             for nombre in categorias_predeterminadas:
-                Categoria.objects.get_or_create(nombre=nombre)  # Crea la categoría si no existe
+                Categoria.objects.get_or_create(nombre=nombre)
             login(request, user)
             messages.success(request, f'¡Bienvenido {user.first_name}!')
             return redirect('home')
@@ -38,11 +38,30 @@ def register_view(request):
         form = RegisterForm()
     return render(request, 'register.html',{'form':form})
 
-@login_required()
+@login_required
 def home(request):
     user = request.user
     saldos_convertidos = user.conversion_saldo()
-    return render(request, 'index.html', {'user': user, 'saldos_convertidos': saldos_convertidos})
+
+
+    presupuestos = Presupuesto.objects.filter(usuario=user)
+
+    
+    alertas = []
+
+    for presupuesto in presupuestos:
+        porcentaje_usado = presupuesto.porcentaje_usado()
+        if porcentaje_usado >= 100:
+            alertas.append(f"¡Has superado el límite de tu presupuesto en la categoría '{presupuesto.categoria.nombre}'!")
+        elif porcentaje_usado >= 90:
+            alertas.append(f"Te estás acercando al límite de tu presupuesto en la categoría '{presupuesto.categoria.nombre}'.")
+
+    return render(request, 'index.html', {
+        'user': user,
+        'saldos_convertidos': saldos_convertidos,
+        'presupuestos': presupuestos,
+        'alertas': alertas,  
+    })
 
 def logout_view(request):
     logout(request)
@@ -145,13 +164,13 @@ def editar_transaccion_view(request, id):
     if request.method == 'POST':
         form = TransaccionForm(request.POST, instance=transaccion)
         if form.is_valid():
-            # Revertir el efecto de la transacción anterior en el saldo
+        
             if transaccion.tipo == 'Ingreso':
                 request.user.saldo -= transaccion.monto
             else:
                 request.user.saldo += transaccion.monto
                 
-            # Aplicar la nueva transacción
+        
             nueva_transaccion = form.save(commit=False)
             if nueva_transaccion.tipo == 'Ingreso':
                 request.user.saldo += nueva_transaccion.monto
@@ -170,7 +189,7 @@ def editar_transaccion_view(request, id):
 def eliminar_transaccion_view(request, id):
     transaccion = get_object_or_404(Transaccion, id=id, usuario=request.user)
     if request.method == 'POST':
-        # Actualizar saldo antes de eliminar
+       
         if transaccion.tipo == 'Ingreso':
             request.user.saldo -= transaccion.monto
         else:

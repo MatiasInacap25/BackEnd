@@ -78,10 +78,10 @@ WSGI_APPLICATION = 'proyecto3.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'finanzas',  # Reemplaza con el nombre de tu base de datos
-        'USER': 'root',                  # Usuario de la base de datos
-        'PASSWORD': 'admin',           # Contraseña del usuario
-        'HOST': 'localhost',                   # Dirección del servidor MySQL (generalmente localhost)
+        'NAME': 'finanzas', 
+        'USER': 'root',                  
+        'PASSWORD': 'admin',           
+        'HOST': 'localhost',                   
         'PORT': '3306',
     }
 }
@@ -131,7 +131,6 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
-SESSION_COOKIE_AGE = 0  # Tiempo de vida de 1 hora
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False  # Expira al cerrar navegador
 
 LOGIN_URL = 'login'  # Nombre de la URL de login

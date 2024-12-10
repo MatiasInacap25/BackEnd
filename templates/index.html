@@ -53,7 +53,7 @@
                 <div class="row">
                   <div class="col">
                     <h1 class="text-center col center">${{ request.user.saldo|floatformat:0 }}</h1>
-                    <ul>
+                    <ul class="list-unstyled text-center">
                       <li><img src="{% static 'icons/USD.png' %}" width="25" height="25" alt="">{{ saldos_convertidos.USD|floatformat:2 }}</li>
                       <li><img src="{% static 'icons/EUR.png' %}" width="25" height="25" alt="">{{ saldos_convertidos.EUR|floatformat:2 }}</li>
                       <li><img src="{% static 'icons/BRL.png' %}" width="25" height="25" alt="">{{ saldos_convertidos.BRL|floatformat:2 }}</li>
@@ -68,7 +68,7 @@
       </div>
     </div>
     <div class="row mt-4">
-      <div class="col-md-4 mb-4">
+      <div class="col-md-4 mb-4 text-center">
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Presupuestos</h5>
@@ -78,7 +78,7 @@
         </div>
       </div>
 
-      <div class="col-md-4 mb-4">
+      <div class="col-md-4 mb-4 text-center">
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Transacciones</h5>
@@ -88,7 +88,7 @@
         </div>
       </div>
 
-      <div class="col-md-4 mb-4">
+      <div class="col-md-4 mb-4 text-center">
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Categorías</h5>
